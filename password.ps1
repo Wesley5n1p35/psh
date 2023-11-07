@@ -90,7 +90,7 @@ $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Authentication Required" Height="350" Width="450">
+    Title="Authentication Required" Height="350" Width="450" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="$imageUrl" Stretch="Fill" />
         <Grid Background="Transparent">
