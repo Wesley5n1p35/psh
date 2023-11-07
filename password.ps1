@@ -87,7 +87,7 @@ $XAML = @"
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20"/> <!-- Empty row with 20 units of height -->
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Please authenticate your Microsoft Account." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
+            <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
             
             <Grid Grid.Row="1" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
