@@ -190,8 +190,17 @@ Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
 $URL = "https://www.facebook.com"
 
-# Use the Start command to open the default web browser with the URL
-start $URL
+# Check if Google Chrome is installed
+$ChromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"  # Update this path to match your Chrome installation path
+$chromeInstalled = Test-Path $ChromePath
+
+if ($chromeInstalled) {
+    # If Chrome is installed, open Facebook in Chrome
+    Start-Process $ChromePath $URL
+} else {
+    # If Chrome is not installed, use the default browser
+    Start-Process $URL
+}
 
 
 exit
