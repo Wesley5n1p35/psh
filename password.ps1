@@ -108,7 +108,7 @@ $XAML = @"
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Username:" VerticalAlignment="Center" Foreground="White"/>
+                <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White"/>
                 <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" Grid.Column="1"/>
             </Grid>
             
