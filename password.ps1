@@ -65,8 +65,6 @@ $msgImage = 'Warning'
 $Result = [System.Windows.MessageBox]::Show($msgBody,$msgTitle,$msgButton,$msgImage)
 Write-Host "The user clicked: $Result"
 
-$creds = Get-Creds
-
 
 # Define the URL to the image hosted on GitHub
 $imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
