@@ -109,7 +109,7 @@ $XAML = @"
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Username:" VerticalAlignment="Center" Foreground="White"/>
-                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="30" Width="200" Grid.Column="1"/>
+                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="23" Width="200" Grid.Column="1"/>
             </Grid>
             
             <Grid Grid.Row="2" HorizontalAlignment="Center">
@@ -118,7 +118,7 @@ $XAML = @"
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Password:" VerticalAlignment="Center" Foreground="White"/>
-                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="30" Width="200" Grid.Column="1"/>
+                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="23" Width="200" Grid.Column="1"/>
             </Grid>
 
             <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
