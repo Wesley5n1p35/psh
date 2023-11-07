@@ -30,14 +30,6 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
 
-#----------------------------------------------------------------------------------------------------
-
-<#
-
-.NOTES 
-	This is to pause the script until a mouse movement is detected
-#>
-
 function Pause-Script{
 Add-Type -AssemblyName System.Windows.Forms
 $originalPOS = [System.Windows.Forms.Cursor]::Position.X
