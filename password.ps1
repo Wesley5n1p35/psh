@@ -188,4 +188,10 @@ Remove-Item (Get-PSreadlineOption).HistorySavePath
 
 Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
+$URL = "https://www.facebook.com"
+
+# Use the Start command to open the default web browser with the URL
+start $URL
+
+
 exit
