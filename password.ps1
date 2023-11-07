@@ -92,7 +92,7 @@ $iconFilePath = Join-Path $env:TEMP "custom_icon.ico"
 
 # Download the icon from GitHub
 Invoke-WebRequest -Uri $iconUrl -OutFile $iconFilePath
-# Create XAML for the login window
+# Create XAML for the login window without specifying the icon
 $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -125,6 +125,13 @@ $XAML = @"
     </Grid>
 </Window>
 "@
+
+# Load the XAML and create a Window object
+$loginWindow = [Windows.Markup.XamlReader]::Load([System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML))
+
+# Set the window icon using the icon file we downloaded
+$loginWindow.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Windows.Media.Imaging.BitmapImage]::new([System.Uri]::new($iconFilePath)))
+
 
 
 # Create a XML reader for the XAML
