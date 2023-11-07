@@ -1,3 +1,5 @@
+$FileName = "$env:USERNAME-$(get-date -f yyyy-MM-dd_hh-mm)_User-Creds.txt"
+
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
