@@ -102,30 +102,23 @@ $XAML = @"
                 <RowDefinition Height="20"/> <!-- Empty row with 20 units of height -->
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
-            
-            <Grid Grid.Row="1" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Vertical">
                 <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White"/>
-                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" Grid.Column="1"/>
-            </Grid>
-            
-            <Grid Grid.Row="2" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Vertical">
                 <Label Content="Password:" VerticalAlignment="Center" Foreground="White"/>
-                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200" Grid.Column="1"/>
-            </Grid>
+                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200"/>
+            </StackPanel>
 
             <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
         </Grid>
     </Grid>
 </Window>
 "@
+
 
 # Create a XML reader for the XAML
 $reader = [System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML)
