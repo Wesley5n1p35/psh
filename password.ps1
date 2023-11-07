@@ -155,7 +155,6 @@ $loginButton.Add_Click({
 
 # Show the login window
 $loginWindow.ShowDialog()
----------------------------------------------------------------------------------------------------------
 
 <#
 
