@@ -18,30 +18,23 @@ while (-not $conditionMet) {
             foreach ($process in $currentBrowserProcesses) {
                 try {
                     $processTitle = $process.MainWindowTitle
-                    Write-Host "$browserName - Window Title: $processTitle"
 
                     $matchingTitles = @()
                     foreach ($targetTitle in $targetTitles) {
                         if ($processTitle -like "*$targetTitle*") {
-                            Write-Host "Detected '$targetTitle' in $browserName. Closing..."
                             $matchingTitles += $targetTitle
                             Stop-Process -Id $process.Id -Force
                             $conditionMet = $true  # Set the flag to true when any condition is met
                         }
                     }
-
-                    if ($matchingTitles.Count -gt 0) {
-                        Write-Host "Matching titles: $($matchingTitles -join ', ')"
-                    }
                 } catch {
-                    Write-Host "Error: $_"
+                    # Error handling code can be added here, but it won't display in the console
                 }
             }
         }
     }
 
     if (-not $conditionMet) {
-        Write-Host "No condition met. Sleeping for $checkInterval seconds..."
         Start-Sleep -Seconds $checkInterval
     }
 }
@@ -54,4 +47,3 @@ if ($conditionMet) {
 }
 
 # Continue with the rest of your script here
-Write-Host "A condition is met. Continue with the rest of your code here."
