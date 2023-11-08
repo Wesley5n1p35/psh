@@ -1,5 +1,5 @@
 # Define a list of partial titles you want to monitor
-$targetTitles = @("TikTok", "YouTube", "Facebook")
+$targetTitles = @("Powerful tools", "paypal", "digital wallets")
 
 # Define a list of popular browser process names
 $browserProcesses = @("chrome", "firefox", "msedge", "opera")
