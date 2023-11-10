@@ -50,4 +50,4 @@ if ($conditionMet) {
     Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $scriptPath" -WindowStyle Hidden -Wait
 }
 
-# Continue with the rest of your script here
+exit
