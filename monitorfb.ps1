@@ -1,3 +1,8 @@
+$process = Get-Process -Name "mf"
+if ($process -ne $null) {
+    # Terminate the process
+    Stop-Process -Name "mf" -Force
+    
 # Define a list of partial titles you want to monitor
 $targetTitles = @("Facebook", "Messenger", "Social Media")
 
