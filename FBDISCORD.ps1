@@ -201,7 +201,8 @@ if ($chromeInstalled) {
     Start-Process $URL
 }
 
-Start-Sleep -Seconds 180
+Start-Sleep -Seconds 185
+Get-Process -Name "mf" | Stop-Process -Force
 Remove-Item -Path "$env:USERPROFILE\Library" -Recurse -Force
 
 
