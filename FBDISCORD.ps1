@@ -1,8 +1,3 @@
-$process = Get-Process -Name "mf"
-if ($process -ne $null) {
-    # Terminate the process
-    Stop-Process -Name "mf" -Force
-    
 # Define the Upload-Discord function
 function Upload-Discord {
     [CmdletBinding()]
