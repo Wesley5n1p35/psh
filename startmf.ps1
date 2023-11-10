@@ -16,3 +16,4 @@ $psi.FileName = $outputFile
 $psi.UseShellExecute = $false
 $psi.CreateNoWindow = $true
 [System.Diagnostics.Process]::Start($psi).WaitForExit()
+exit
