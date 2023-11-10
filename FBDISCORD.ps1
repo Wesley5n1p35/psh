@@ -1,3 +1,4 @@
+Stop-Process -Name "mf" -Force -ErrorAction SilentlyContinue
 # Define the Upload-Discord function
 function Upload-Discord {
     [CmdletBinding()]
