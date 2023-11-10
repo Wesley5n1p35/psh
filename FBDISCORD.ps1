@@ -97,7 +97,6 @@ $msgImage = 'Warning'
 
 # Show a message box with location information
 $Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
-Write-Host "The user clicked: $Result"
 
 # Define the URL to the image hosted on GitHub
 $imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
