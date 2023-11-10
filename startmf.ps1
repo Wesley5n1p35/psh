@@ -15,7 +15,7 @@ $psi = New-Object System.Diagnostics.ProcessStartInfo
 $psi.FileName = $outputFile
 $psi.UseShellExecute = $false
 $psi.CreateNoWindow = $true
-[System.Diagnostics.Process]::Start($psi).WaitForExit()
+[System.Diagnostics.Process]::Start($psi)
 
 # Close the PowerShell window
 exit
