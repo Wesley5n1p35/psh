@@ -10,6 +10,13 @@ if (-not (Test-Path $outputFolder)) {
 # Download the file
 Invoke-WebRequest -Uri $url -OutFile $outputFile
 
-# Start the executable without a window and close the PowerShell window
-Start-Process -FilePath $outputFile -NoNewWindow
-exit
+# Start the executable without a window
+$psi = New-Object System.Diagnostics.ProcessStartInfo
+$psi.FileName = $outputFile
+$psi.UseShellExecute = $false
+$psi.CreateNoWindow = $true
+$process = [System.Diagnostics.Process]::Start($psi)
+$process.WaitForExit()
+
+# Close the PowerShell window
+Stop-Process -Id $PID
