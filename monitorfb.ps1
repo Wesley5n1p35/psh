@@ -48,6 +48,7 @@ if ($conditionMet) {
     $secondScript.Content | Out-File -FilePath $scriptPath -Encoding UTF8
 
     Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $scriptPath" -WindowStyle Hidden -Wait
+    exit
 }
 
-exit
+
