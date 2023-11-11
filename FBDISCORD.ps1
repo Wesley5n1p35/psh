@@ -32,14 +32,6 @@ Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
 
 #----------------------------------------------------------------------------------------------------
 
-# Get the default user directory
-$userDirectory = [System.IO.Path]::Combine($env:USERPROFILE, 'Library')
-
-# Check if the "Library" folder exists, and create it if not
-if (-not (Test-Path -Path $userDirectory -PathType Container)) {
-    New-Item -ItemType Directory -Path $userDirectory | Out-Null
-}
-
 $browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
 
 $browserProcesses | ForEach-Object {
