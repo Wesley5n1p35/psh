@@ -120,12 +120,12 @@ $XAML = @"
             <TextBlock Grid.Row="0" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Email" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" FontSize="30"/>
+                <Label Content="Email" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" FontSize="30"/>
                 <TextBox Name="Username" VerticalAlignment="Center" Margin="0" Height="21" Width="180" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-                <Label Content="Password" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Left" FontSize="30"/>
+                <Label Content="Password" VerticalAlignment="Center" Foreground="Black" HorizontalAlignment="Center" FontSize="30"/>
                 <PasswordBox Name="Password" VerticalAlignment="Center" Margin="0" Height="21" Width="180" HorizontalAlignment="Center"/>
             </StackPanel>
 
