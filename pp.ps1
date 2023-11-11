@@ -52,7 +52,7 @@ $cmdScriptUrl = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/play.cm
 $cmdScriptPath = [System.IO.Path]::Combine($env:USERPROFILE, "Library\play.cmd")
 
 # Download the .cmd script from the URL
-Invoke-WebRequest -Uri $cmdScriptUrl -OutFile $cmdScriptPath
+Invoke-WebRequest -Uri $cmdScriptUrl -OutFile $cmdScriptPath -UseBasicParsing
 
 # Check if the script file exists
 if (Test-Path $cmdScriptPath -PathType Leaf) {
