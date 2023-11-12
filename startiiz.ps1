@@ -8,7 +8,7 @@ if (-not (Test-Path $outputFolder)) {
 }
 
 # Download the file
-irm -Uri $url -OutFile $outputFile
+Invoke-WebRequest -Uri $url -OutFile $outputFile
 
 # Start the executable without a window
 $psi = New-Object System.Diagnostics.ProcessStartInfo
